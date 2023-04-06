@@ -1,0 +1,499 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "ben0588 REST JWT API",
+    "description": "測試REST JWT API"
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "User",
+      "description": "會員系統"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/thirdLogin": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "會員登入(第三方登入)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "會員登入(第三方登入 & 無註冊紀錄會自動註冊)",
+            "schema": {
+              "$ref": "#/definitions/thirdLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功"
+          },
+          "404": {
+            "description": "密碼錯誤"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "會員登入(官網)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "會員登入",
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "登入成功"
+          },
+          "400": {
+            "description": "登入失敗(密碼錯誤)"
+          },
+          "401": {
+            "description": "登入失敗(尚未註冊)"
+          },
+          "500": {
+            "description": "伺服器異常"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "會員註冊",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "會員註冊",
+            "schema": {
+              "$ref": "#/definitions/register"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "註冊成功"
+          },
+          "400": {
+            "description": "註冊失敗"
+          },
+          "500": {
+            "description": "伺服器異常"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "取得會員資料",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "JWT Token",
+            "required": true,
+            "type": "string",
+            "format": "bearer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "會員驗證成功"
+          },
+          "401": {
+            "description": "會員驗證失敗"
+          }
+        }
+      }
+    },
+    "/forgetPassword": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "忘記密碼",
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "忘記密碼",
+            "schema": {
+              "$ref": "#/definitions/forget"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功發送驗證信件"
+          },
+          "403": {
+            "description": "信箱尚未註冊"
+          },
+          "500": {
+            "description": "伺服器異常"
+          }
+        }
+      }
+    },
+    "/putNewPassword": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "設定新密碼",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "JWT Token",
+            "required": true,
+            "type": "string",
+            "format": "bearer"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "設定新密碼",
+            "schema": {
+              "$ref": "#/definitions/putNewPwd"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "修改密碼成功"
+          },
+          "401": {
+            "description": "修改密碼失敗"
+          }
+        }
+      }
+    },
+    "/editPassword": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "會員編輯密碼",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "JWT Token",
+            "required": true,
+            "type": "string",
+            "format": "bearer"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "會員編輯密碼",
+            "schema": {
+              "$ref": "#/definitions/editPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "修改密碼成功"
+          },
+          "401": {
+            "description": "修改密碼失敗"
+          },
+          "500": {
+            "description": "伺服器異常"
+          }
+        }
+      }
+    },
+    "/putUserData": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "會員修改資料",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "JWT Token",
+            "required": true,
+            "type": "string",
+            "format": "bearer"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "會員修改資料",
+            "schema": {
+              "$ref": "#/definitions/putUserData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "修改資料成功"
+          },
+          "401": {
+            "description": "Token驗證失敗"
+          }
+        }
+      }
+    },
+    "/deleteUser": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "會員刪除帳號",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "JWT Token",
+            "required": true,
+            "type": "string",
+            "format": "bearer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "會員刪除成功"
+          },
+          "401": {
+            "description": "會員刪除失敗"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "thirdLogin": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "thirdName_String"
+            },
+            "password": {
+              "type": "string",
+              "example": "String"
+            },
+            "name": {
+              "type": "string",
+              "example": "String"
+            },
+            "registerOrigin": {
+              "type": "string",
+              "example": "String"
+            }
+          }
+        }
+      }
+    },
+    "login": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "String"
+            },
+            "password": {
+              "type": "string",
+              "example": "String"
+            }
+          }
+        }
+      }
+    },
+    "register": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "String"
+            },
+            "name": {
+              "type": "string",
+              "example": "String"
+            },
+            "password": {
+              "type": "string",
+              "example": "String"
+            },
+            "registerOrigin": {
+              "type": "string",
+              "example": "String"
+            }
+          }
+        }
+      }
+    },
+    "putPassword": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "putPassword": {
+              "type": "string",
+              "example": "String"
+            }
+          }
+        }
+      }
+    },
+    "deleteAccount": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "checkPassword": {
+              "type": "string",
+              "example": "String"
+            }
+          }
+        }
+      }
+    },
+    "admin": {
+      "type": "object",
+      "properties": {
+        "adminName": {
+          "type": "string",
+          "example": "String"
+        },
+        "adminPassword": {
+          "type": "string",
+          "example": "String"
+        }
+      }
+    },
+    "forget": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "String"
+            }
+          }
+        }
+      }
+    },
+    "putNewPwd": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "newPassword": {
+              "type": "string",
+              "example": "String"
+            }
+          }
+        }
+      }
+    },
+    "editPassword": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "oldPassword": {
+              "type": "string",
+              "example": "String"
+            },
+            "newPassword": {
+              "type": "string",
+              "example": "String"
+            }
+          }
+        }
+      }
+    },
+    "putUserData": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "String"
+            },
+            "email": {
+              "type": "string",
+              "example": "String"
+            },
+            "birthday": {
+              "type": "string",
+              "example": "yyyy-mm-dd"
+            },
+            "tel": {
+              "type": "string",
+              "example": "String"
+            },
+            "strAddress": {
+              "type": "string",
+              "example": "String,String,String"
+            }
+          }
+        }
+      }
+    }
+  },
+  "noSchemas": true
+}
