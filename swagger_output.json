@@ -5,7 +5,7 @@
     "title": "ben0588 REST JWT API",
     "description": "測試REST JWT API"
   },
-  "host": "localhost:8000",
+  "host": "localhost:8000/api",
   "basePath": "/",
   "tags": [
     {
@@ -16,6 +16,14 @@
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": ""
+    }
+  },
   "consumes": [
     "application/json"
   ],
@@ -23,6 +31,24 @@
     "application/json"
   ],
   "paths": {
+    "/check": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "檢查服務器運行狀態",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "服務器正常運行中"
+          },
+          "500": {
+            "description": "服務器未啟用"
+          }
+        }
+      }
+    },
     "/thirdLogin": {
       "post": {
         "tags": [
@@ -127,7 +153,7 @@
             "description": "JWT Token",
             "required": true,
             "type": "string",
-            "format": "bearer"
+            "format": "Bearer"
           }
         ],
         "responses": {
@@ -346,6 +372,10 @@
             "password": {
               "type": "string",
               "example": "String"
+            },
+            "registerOrigin": {
+              "type": "string",
+              "example": "官網"
             }
           }
         }
@@ -495,5 +525,9 @@
       }
     }
   },
-  "noSchemas": true
+  "security": [
+    {
+      "JWT": []
+    }
+  ]
 }

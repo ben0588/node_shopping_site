@@ -8,7 +8,15 @@ const doc = {
         title: 'ben0588 REST JWT API', // by default: "REST API"
         description: '測試REST JWT API', // by default: ""
     },
-    host: 'localhost:8000', // by default: "localhost:3000"
+    securityDefinitions: {
+        JWT: {
+            type: 'apiKey',
+            in: 'header',
+            name: 'Authorization',
+            description: '',
+        },
+    },
+    host: 'localhost:8000/api', // by default: "localhost:3000"
     // basePath: '', // by default: "/"
     schemes: ['http'], // by default: ['http']
     consumes: ['application/json'], // by default: ['application/json']
@@ -34,6 +42,7 @@ const doc = {
             user: {
                 email: 'String',
                 password: 'String',
+                registerOrigin: '官網',
             },
         },
         register: {
@@ -84,11 +93,12 @@ const doc = {
             },
         },
     }, // by default: empty object
+    security: [{ JWT: [] }],
 }
 const outputFile = './swagger_output.json' // 輸出的文件名稱
 // const endpointsFiles = ['./app(建立會員系統).js'] // 要指向的 API，通常使用 Express 直接指向到 app.js 就可以
 const endpointsFiles = ['./routes/api.js'] // 要指向的 API，通常使用 Express 直接指向到 app.js 就可以
-swaggerAutogen(outputFile, endpointsFiles, doc, options) // swaggerAutogen 的方法
+swaggerAutogen(outputFile, endpointsFiles, doc) // swaggerAutogen 的方法
 
 // 註解撰寫範本
 // const doc = {

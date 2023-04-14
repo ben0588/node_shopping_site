@@ -23,10 +23,23 @@ const ForgotPasswordSendMailbox = require('../models/aws_ses_model')
 
 // --- 建立 GET 檢查服務器是否正常 ---
 router.get('/check', async (request, response, next) => {
-    response.status(200).json({
-        success: true,
-        message: '服務器正常運行中',
-    })
+    // 新增swagger REST API 文件說明
+    /*  #swagger.tags = ['User']
+        #swagger.summary = '檢查服務器運行狀態'
+        #swagger.responses[200] = { description: '服務器正常運行中' }
+        #swagger.responses[500] = { description: '服務器未啟用' }
+    */
+    try {
+        response.status(200).json({
+            success: true,
+            message: '服務器正常運行中',
+        })
+    } catch (error) {
+        response.status(500).json({
+            success: false,
+            message: '服務器未啟用',
+        })
+    }
 })
 // --- 建立 POST GitHub 第三方登入 & code 換取 access_token ---
 router.post('/githubCode', async (request, response, next) => {
@@ -324,7 +337,7 @@ router.get('/user', async (request, response, next) => {
             description: 'JWT Token',
             required: true,
             type: 'string',
-            format: 'bearer'
+            format: 'Bearer',
         }
     */
 
@@ -332,6 +345,7 @@ router.get('/user', async (request, response, next) => {
         // 開始驗證 jwt 把請求資訊放入驗證 api
         // console.log('request:', request.headers)
         const checkJwtResult = await tokenVerify(request)
+        console.log(checkJwtResult)
         if (checkJwtResult) {
             // 驗證成功回傳所屬會員個人信息
             response.status(200).json(checkJwtResult)
@@ -527,7 +541,7 @@ router.put('/putUserData', async (request, response, next) => {
         #swagger.responses[200] = { description: '修改資料成功' }
         #swagger.responses[401] = { description: 'Token驗證失敗' }
     */
-    const { email, name, birthday, tel, strAddress } = request.body.user.data
+    const { email, name, birthday, tel, strAddress } = request.body.user
     try {
         const result = await tokenVerify(request) // 核對 JWT 是否確認
         if (result.decodedToken.email === email) {
