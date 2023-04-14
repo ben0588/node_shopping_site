@@ -13,4 +13,4 @@
 -   Amazon SES - 系統發送電子郵件 (忘記密碼功能)
 -   swagger-ui-express - 產生線上 api 文件
     -   swagger 線上文件網址 :
-        -   [影片展示](https://www.awesomescreenshot.com/video/16523212)
+        -   [影片展示](https://www.awesomescreenshot.com/video/16523212?key=124967b030a390339c2130f7b9627996)
